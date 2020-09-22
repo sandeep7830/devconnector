@@ -56,10 +56,19 @@ router.post('/',[auth, [
     if(bio)  profileFields.bio=bio;
     if(githubusername) profileFields.githubusername=githubusername;
     if(status) profileFields.status=status;
-    if(skills) {
-        profileFields.skills=skills.split(',').map(skill=>skill.trim());
-    };
-    
+   if (skills) 
+    skills: Array.isArray(skills)
+    ? profileFields.skills=skills
+    :  profileFields.skills= skills.split(',').map((skill) => ' ' + skill.trim()),
+       
+   
+   
+    //if(skills) profileFields.skills=skills;
+
+
+   /* if (skills) {
+        profileFields.skills = skills.split(',');
+      }*/
     
     profileFields.social={};
     if(youtube)profileFields.social.youtube=youtube;
@@ -119,57 +128,10 @@ router.delete('/',auth,async(req,res)=>{
 
     } catch (error) {
         console.log(error);
-        res.status(400).send('sever error')
+        res.status(400).send('sever error') 
     } 
     });
 
-
-
-/*router.patch('/experience',[auth, [
-    check('company','enter company ').not().isEmpty(),
-    check('from','enter from date').not().isEmpty(),
-    check('title','enter title').not().isEmpty()
-]],async(req,res)=>{
-    const errors=validationResult(req);
-    if (!errors.isEmpty()) {
-        return res.status(400).json({errors:errors.array()});
-        };
-    
-    const{
-        title,
-        location,
-        company,
-        from,
-        to,
-        current,
-        description
-
-    }=req.body;
-
-const profileFields={};
-profileFields.user=req.user.id;
-profileFields.experience={};
-    if(title)profileFields.experience.title=title;
-    if(location)profileFields.experience.location=location;
-    if(company)profileFields.experience.company=company;
-    if(from)profileFields.experience.from=from;
-    if(to)profileFields.experience.to=to;
-    if(current)profileFields.experience.current=current;
-    if(description)profileFields.experience.description=description;
-    
-
-try {
-    const profile = await Profile.findByIdAndUpdate({user:req.user.id},{$set:profileFields},{new:true})    
- res.json(profile);
-
-
-} catch (error) {
-    console.log(error);
-        res.status(400).send('sever error')
-}
-    
-    
-    });*/
 
 
 
@@ -317,24 +279,25 @@ try {
         res.status(400).send(error);
     }
 
-    })    
-
+    }) 
+       
     router.get('/github/:username', async (req, res) => {
         try {
-            const uri = encodeURI(
-                `https://api.github.com/users/${req.params.username}/repos?per_page=5&sort=created:asc`
-            );
-            const headers = {
-                'user-agent': 'node.js',
-                 Authorization : `token ${config.get('githubToken')}`
-            };
-            const githubResponse = await axios.get(uri, { headers });
-            return res.json(githubResponse.data);
+          const uri = encodeURI(
+            `https://api.github.com/users/${req.params.username}/repos?per_page=5&sort=created:asc`
+          );
+          const headers = {
+            'user-agent': 'node.js',
+            Authorization: `token ${config.get('githubToken')}`
+          };
+      
+          const gitHubResponse = await axios.get(uri, { headers });
+          return res.json(gitHubResponse.data);
         } catch (err) {
-            console.log(err);
-            res.status(404).send('No Github profile found');
+          console.error(err.message);
+          return res.status(404).json({ msg: 'No Github profile found' });
         }
-    });
+      });
 
 
 

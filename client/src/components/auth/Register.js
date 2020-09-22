@@ -1,12 +1,12 @@
 import React,{useState} from 'react'
-import { Link } from 'react-router-dom';
+import { Link ,Redirect} from 'react-router-dom';
 import { connect } from "react-redux";
 import { setAlert } from "../../action/alert";
 import { register } from "../../action/auth";
 import PropTypes from 'prop-types'
 
 
-const Register = ({setAlert,register}) => {
+const Register = ({setAlert,register,isAuthenticated}) => {
 
 const [formData, setFormData]= useState({
     name:'',
@@ -33,6 +33,11 @@ const onSubmit=e=>{
 
 }
 
+if (isAuthenticated) {
+  return<Redirect  to='/dashboard' />
+  
+}
+
     return (
         <div>
             <section >
@@ -44,7 +49,7 @@ const onSubmit=e=>{
           type="text" 
           placeholder="Name" 
           name="name"
-          required
+          
           value={name}
           onChange={e=>onchange(e)}
            
@@ -69,7 +74,7 @@ const onSubmit=e=>{
             type="password"
             placeholder="Password"
             name="password"
-            minLength="6"
+            
             value={password}
           onChange={e=>onchange(e)}
           
@@ -80,7 +85,7 @@ const onSubmit=e=>{
             type="password"
             placeholder="Confirm Password"
             name="password2"
-            minLength="6"
+          
             value={password2}
           onChange={e=>onchange(e)}
           
@@ -99,7 +104,11 @@ const onSubmit=e=>{
 Register.prototype={
   setAlert:PropTypes.func.isRequired,
   register:PropTypes.func.isRequired,
+  isAuthenticated:PropTypes.bool,
 }
 
+const mapStateToProps=state=>({
+  isAuthenticated:state.auth.isAuthenticated
+})
 
-export default connect(null,{setAlert,register})(Register);
+export default connect(mapStateToProps,{setAlert,register})(Register);
