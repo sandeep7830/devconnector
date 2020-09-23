@@ -14,14 +14,14 @@ const PostItems = ({auth,post:{avatar,likes,_id,text,user,name,date,comments},ad
     return (
         <div className="post bg-white p-1 my-1">
         <div>
-          <a href="profile.html">
+          <Link to={`/profile/${user}`}>
             <img
               className="round-img"
               src={avatar}
               alt=""
             />
             <h4>{name}</h4>
-          </a>
+          </Link>
         </div>
         <div>
           <p className="my-1">
@@ -44,7 +44,7 @@ const PostItems = ({auth,post:{avatar,likes,_id,text,user,name,date,comments},ad
           </button>
 
           
-          <Link to={`/post/${_id}`} className="btn btn-primary">
+          <Link to={`/posts/${_id}`} className="btn btn-primary">
     Discussion  {comments.length> 0&& (<span className='comment-count'>{comments.length}</span>)}
           </Link>
 
@@ -72,6 +72,9 @@ const PostItems = ({auth,post:{avatar,likes,_id,text,user,name,date,comments},ad
 PostItems.propTypes = {
 auth:PropTypes.object.isRequired,
 post:PropTypes.object.isRequired,
+addlike:PropTypes.func.isRequired,
+deletepost:PropTypes.func.isRequired,
+removelike:PropTypes.func.isRequired,
 }
 
 const mapStateToProps=state=>({
