@@ -1,4 +1,4 @@
-import { GET_POSTS,POST_ERROR,UPDATE_LIKES,DELETE_POST,ADD_POST ,GET_POST} from '../action/types';
+import { GET_POSTS,POST_ERROR,UPDATE_LIKES,DELETE_POST,ADD_POST ,GET_POST,ADD_COMMENT,REMOVE_COMMENT} from '../action/types';
 
 
 const initialState={
@@ -43,7 +43,19 @@ switch (type) {
                     posts:[payload,...state.posts],
                     loading:false
                 }
-            
+                case ADD_COMMENT:
+                    return{
+                        ...state,
+                        post:payload,
+                        loading:false
+                    }
+                    case REMOVE_COMMENT:
+                return{
+                    ...state,
+                    posts:state.posts.map(post=>post._id===payload.id?payload.post:post),
+                    post:payload.post,
+                    loading:false
+                }
         case DELETE_POST:
             return{
                 ...state,

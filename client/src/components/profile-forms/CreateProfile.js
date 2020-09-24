@@ -104,13 +104,10 @@ createprofile(formdata,history);
         <div className="form-group">
           <input
             type="text"
-            placeholder="Github Username"
+            placeholder="Github link"
             name="githubusername"
             value={githubusername} onChange={e=>onchange(e)}
           />
-          <small className="form-text"
-            >If you want your latest repos and a Github link, include your
-            username</small>
         </div>
         <div className="form-group">
           <textarea placeholder="A short bio of yourself" name="bio"  value={bio} onChange={e=>onchange(e)}></textarea>

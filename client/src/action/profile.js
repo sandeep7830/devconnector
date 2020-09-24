@@ -69,26 +69,6 @@ export const getprofiles =()=>async dispatch=>{
         }
          } 
 
-         export const getgithubrepos =username=>async dispatch=>{
-            try {
-                
-                
-            const res= await axios.get(`/api/profile/github/${username}`);
-            dispatch({
-                type:GET_REPOS,
-               payload:res.data
-            
-            })
-            
-            } catch (error) {
-            
-                dispatch({
-                    type:PROFILE_ERROR,
-                    payload:{msg:error.response.statusText}
-                })
-            }
-             } 
-
 export const createprofile =(formdata,history,edit=false)=>async dispatch=>{
 
     const config={

@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 
-const PofileTop = ({profile:{company,status,location,social,website,user:{name,avatar}}})=> {
+const PofileTop = ({profile:{company,status,location,social,website,githubusername,user:{name,avatar}}})=> {
   
     return (<Fragment>
      
@@ -20,6 +20,11 @@ const PofileTop = ({profile:{company,status,location,social,website,user:{name,a
         {website && (
           <a href={website} target='_blank' rel='noopener noreferrer'>
             <i className='fas fa-globe fa-2x' />
+          </a>
+        )}
+        {githubusername && (
+          <a href={githubusername} target='_blank' rel='noopener noreferrer'>
+            <i className='fab fa-github fa-2x' />
           </a>
         )}
         {social && social.twitter && (

@@ -63,12 +63,6 @@ router.post('/',[auth, [
        
    
    
-    //if(skills) profileFields.skills=skills;
-
-
-   /* if (skills) {
-        profileFields.skills = skills.split(',');
-      }*/
     
     profileFields.social={};
     if(youtube)profileFields.social.youtube=youtube;

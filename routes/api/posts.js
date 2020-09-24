@@ -163,6 +163,7 @@ router.put('/unlike/:id',auth,async(req,res)=>{
   
 });
 
+
 router.post('/comment/:id',[auth,[
     check('text','enter text').not().isEmpty(),
 ]
@@ -177,18 +178,17 @@ try{
     let user = await User.findById(req.user.id).select('-password');
     let post= await Post.findById(req.params.id);
 
-    const newcomment = {
+    const Postcomment={
         text:req.body.text,
         user:req.user.id,
         name :user.name,
         avatar:user.avatar,
     }
 
-    post.comments.unshift(newcomment);
+    post.comments.unshift(Postcomment)
 
 await post.save();
-
-res.send(post.comments);
+res.send(post);
 
 } catch (error) {
     console.log(error);
@@ -196,6 +196,8 @@ res.send(post.comments);
 }
 
 });
+
+
 
 
 router.delete('/comment/:id/:comment_id',auth,async(req,res)=>{
@@ -214,8 +216,11 @@ router.delete('/comment/:id/:comment_id',auth,async(req,res)=>{
       }
 
       
-        const removeIndex= post.comments.map(comment=>comment.user.toString()).indexOf(req.user.id);
-        post.commments.splice(removeIndex , 1);
+    post.comments = post.comments.filter(
+        comment=>comment.id!==req.params.comment_id
+      );
+        //const removeIndex= post.comments.map(comment=>comment.user.toString()).indexOf(req.user.id);
+        //post.commments.splice(removeIndex , 1);
     
     await post.save();
     res.send(post);  

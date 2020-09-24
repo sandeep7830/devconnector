@@ -4,9 +4,10 @@ import { connect } from 'react-redux'
 import Moment from 'react-moment';
 import { addlike,removelike,deletepost} from '../../action/post';
 import { Link } from 'react-router-dom';
+import { Fragment } from 'react';
 
 
-const PostItems = ({auth,post:{avatar,likes,_id,text,user,name,date,comments},addlike,removelike,deletepost})=> {
+const PostItems = ({auth,showaction,post:{avatar,likes,_id,text,user,name,date,comments},addlike,removelike,deletepost})=> {
 
 
 
@@ -43,10 +44,10 @@ const PostItems = ({auth,post:{avatar,likes,_id,text,user,name,date,comments},ad
             <i className="fas fa-thumbs-down"></i>
           </button>
 
-          
-          <Link to={`/posts/${_id}`} className="btn btn-primary">
+          {showaction&&<Fragment><Link to={`/posts/${_id}`} className="btn btn-primary">
     Discussion  {comments.length> 0&& (<span className='comment-count'>{comments.length}</span>)}
-          </Link>
+          </Link></Fragment>}
+          
 
 
           {!auth.loading && user === auth.user._id && (
@@ -67,6 +68,11 @@ const PostItems = ({auth,post:{avatar,likes,_id,text,user,name,date,comments},ad
             
         
     )
+}
+
+
+PostItems.defaultProps={
+  showaction:true
 }
 
 PostItems.propTypes = {
