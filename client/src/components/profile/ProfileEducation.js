@@ -3,11 +3,13 @@ import PropTypes from 'prop-types';
 import Moment from 'react-moment'
 
 const ProfileEducation = ({education:{school,to,from,degree,fielofstudy,description}}) => {
+
+    console.log(from);
     return (
         <div>
             <h3 className="text-dark">{school}</h3>
             <p>
-    <Moment format="DD/MM/YYYY"> {from} </Moment>-{to?<Moment format="DD/MM/YYYY">{to}</Moment>:'Now'}
+    <Moment format="DD/MM/YYYY">{from}</Moment>-{to?<Moment format="DD/MM/YYYY">{to}</Moment>:'Now'}
             </p>
             <p>
                 <strong>Degree: </strong>{degree}
